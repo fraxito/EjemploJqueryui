@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="css/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
+        <script src="js/jquery.js" type="text/javascript"></script>
+        <script src="js/jquery-ui.min.js" type="text/javascript"></script>
+        <style>
+            .rojo .ui-state-default{
+                background-color: red !important;
+                background-image: none !important;
+            }
+            
+        </style>
+    </head>
+    <body>
+
+        <div id="fechas">
+        
+        </div>
+
+        <script>
+            var disabledDays = ['2017-10-21', 
+                                '2017-10-22'];
+            
+            var diasOcupados = ['2017-10-12', 
+                                '2017-10-15'];
+                            
+            function festivos(date){
+                var fecha = date.getFullYear() + '-' + (date.getMonth()+1) + '-' + date.getDate()  ;
+                //chequeo si el dia está en la lista de disabledDays
+                var posicion = $.inArray(fecha, disabledDays);
+                if (posicion !== -1){return [false, "", ""];}
+                else {
+                
+                    //chequeo si el dia está en la lista de diasOcupados
+                    posicion = $.inArray(fecha, diasOcupados);
+                    if (posicion !== -1){return [false, "rojo", ""];}
+                    else {return [true, "", ""];}
+                }
+            }
+            
+            
+            $("#fechas").datepicker({
+                beforeShowDay: festivos,
+                firstDay: 1,  // la semana empieza los lunes
+                dayNamesMin: ["Do", "Lu", "Ma", "Mi","Ju","Vi","Sa"],
+                numberOfMonths: 1,
+                changeYear: true,
+                changeMonth: true,
+                yearRange: "-1:+25",
+                onSelect: function(){
+                    var fechaElegida = $('#fechas').datepicker('getDate');
+                    
+                    var dia = fechaElegida.getDate();
+                    var mes = fechaElegida.getMonth()+1;
+                    var anio = fechaElegida.getFullYear();
+                    var fullFecha = anio + '-' + mes + '-' + dia ;
+                    console.log(fullFecha);
+                }
+            });
+        </script>
+    </body>
+</html>
